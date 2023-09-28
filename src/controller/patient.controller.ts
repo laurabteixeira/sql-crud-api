@@ -9,7 +9,7 @@ import { FieldPacket, ProcedureCallPacket, ResultSetHeader, RowDataPacket } from
 
 type ResultSet = [RowDataPacket[] | ResultSetHeader, FieldPacket[] | RowDataPacket[][] | ProcedureCallPacket]
 
-export const getPatients = async (req: Request, res: Response): Promise<Response<Patient[]>> => {
+export const getPatients = async (req: Request, res: Response): Promise<Response<HttpResponse>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${req.method}${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
 
   try {
@@ -27,7 +27,7 @@ export const getPatients = async (req: Request, res: Response): Promise<Response
   }
 }
 
-export const getPatient = async (req: Request, res: Response): Promise<Response<Patient>> => {
+export const getPatient = async (req: Request, res: Response): Promise<Response<HttpResponse>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${req.method}${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
 
   try {
@@ -50,7 +50,7 @@ export const getPatient = async (req: Request, res: Response): Promise<Response<
   }
 }
 
-export const createPatient = async (req: Request, res: Response): Promise<Response<Patient>> => {
+export const createPatient = async (req: Request, res: Response): Promise<Response<HttpResponse>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${req.method}${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
 
   let patient: Patient = { ...req.body }
@@ -72,7 +72,7 @@ export const createPatient = async (req: Request, res: Response): Promise<Respon
   }
 }
 
-export const updatePatient = async (req: Request, res: Response): Promise<Response<Patient>> => {
+export const updatePatient = async (req: Request, res: Response): Promise<Response<HttpResponse>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${req.method}${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
 
   let patient: Patient = { ...req.body }
@@ -98,7 +98,7 @@ export const updatePatient = async (req: Request, res: Response): Promise<Respon
   }
 }
 
-export const deletePatient = async (req: Request, res: Response): Promise<Response<Patient>> => {
+export const deletePatient = async (req: Request, res: Response): Promise<Response<HttpResponse>> => {
   console.info(`[${new Date().toLocaleString()}] Incoming ${req.method}${req.originalUrl} Request from ${req.rawHeaders[0]} ${req.rawHeaders[1]}`);
 
   let patient: Patient = { ...req.body }
