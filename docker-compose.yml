@@ -1,0 +1,49 @@
+services:
+  mysqldb:
+    container_name: mysqlcontainer
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes: 
+      - ./dbinit/init.sql:/docker-entrypoint-initdb.d/0_init.sql
+      - $HOME/database:/var/lib/mysql
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: patientsdb
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_TAGS: prod
+      SERVICE_NAME: mysqldb
+    networks:
+      - internalNet
+
+  sqlapi: 
+    container_name: sqlapicontainer
+    build: .
+    image: sqlapi:v1
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    depends_on:
+      - mysqldb
+    environment:
+      DB_HOST: mysqldb
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: patientsdb
+      DB_PORT: 3306
+      DB_CONNECTION_LIMIT: 10
+      SERVER_PORT: 3000
+      SERVICE_TAGS: prod
+      SERVICE_NAME: sqlapiservice
+    networks:
+      - internalNet
+
+networks:
+  internalNet: 
+    driver: bridge
